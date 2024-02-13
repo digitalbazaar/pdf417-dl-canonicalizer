@@ -1,9 +1,11 @@
 /*!
  * Copyright (c) 2024 Digital Bazaar, Inc. All rights reserved.
  */
-import {base64UrlFromPdfBytes,
+import {
+  base64UrlFromPdfBytes,
   canonizedBytesFromPdfBytes,
-  hashFromPdfBytes} from '../lib/canonize.js';
+  hashFromPdfBytes
+} from '../lib/canonize.js';
 
 const encoder = new TextEncoder();
 const pdf417StringPre = '@\n';
