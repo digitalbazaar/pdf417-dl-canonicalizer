@@ -1,6 +1,6 @@
 # Driver's License PDF417 Canonicalizer _(@digitalbazaar/pdf417-dl-canonicalizer)_
 
-[![Build Status](https://img.shields.io/github/actions/workflow/status/digitalbazaar/pdf417-dl-canonicalizer/main.yaml)](https://github.com/digitalbazaar/pdf417-dl-canonicalizer/actions/workflow/main.yaml)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/digitalbazaar/pdf417-dl-canonicalizer/main.yaml)](https://github.com/digitalbazaar/pdf417-dl-canonicalizer/actions/workflows/main.yaml)
 [![Coverage Status](https://img.shields.io/codecov/c/github/digitalbazaar/pdf417-dl-canonicalizer)](https://codecov.io/gh/digitalbazaar/pdf417-dl-canonicalizer)
 [![NPM Version](https://img.shields.io/npm/v/@digitalbazaar/pdf417-dl-canonicalizer.svg)](https://npm.im/@digitalbazaar/pdf417-dl-canonicalizer)
 
