@@ -5,8 +5,6 @@ import {base64UrlFromPdfBytes,
   canonizedBytesFromPdfBytes,
   hashFromPdfBytes} from '../lib/canonize.js';
 
-import {describe, it} from 'mocha';
-
 const encoder = new TextEncoder();
 const pdf417StringPre = '@\n';
 const recSep = String.fromCharCode(30);
