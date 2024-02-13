@@ -1,0 +1,66 @@
+{
+  "name": "@digitalbazaar/pdf417-dl-canonicalizer",
+  "version": "0.0.1-0",
+  "description": "Driver's License PDF417 Canonicalizer",
+  "license": "BSD-3-Clause",
+  "type": "module",
+  "exports": "./lib/index.js",
+  "files": [
+    "lib/**/*.js"
+  ],
+  "scripts": {
+    "test": "npm run test-node",
+    "test-node": "cross-env NODE_ENV=test mocha --preserve-symlinks -t 30000 -A -R ${REPORTER:-spec} --require tests/test-mocha.js tests/*.spec.js",
+    "test-karma": "karma start karma.conf.cjs",
+    "coverage": "cross-env NODE_ENV=test c8 npm run test-node",
+    "coverage-ci": "cross-env NODE_ENV=test c8 --reporter=lcovonly --reporter=text-summary --reporter=text npm run test-node",
+    "coverage-report": "c8 report",
+    "lint": "eslint --ext .cjs,.js ."
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "c8": "^9.1.0",
+    "chai": "^4.3.6",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.56.0",
+    "eslint-config-digitalbazaar": "^5.0.1",
+    "eslint-plugin-jsdoc": "^48.0.6",
+    "eslint-plugin-unicorn": "^51.0.1",
+    "karma": "^6.4.2",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^3.2.0",
+    "karma-mocha": "^2.0.1",
+    "karma-mocha-reporter": "^2.2.5",
+    "karma-sourcemap-loader": "^0.4.0",
+    "karma-webpack": "^5.0.1",
+    "mocha": "^10.3.0",
+    "mocha-lcov-reporter": "^1.3.0",
+    "webpack": "^5.90.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/digitalbazaar/pdf417-dl-canonicalizer"
+  },
+  "keywords": [
+    "PDF417"
+  ],
+  "author": {
+    "name": "Digital Bazaar, Inc.",
+    "email": "support@digitalbazaar.com",
+    "url": "https://digitalbazaar.com/"
+  },
+  "bugs": {
+    "url": "https://github.com/digitalbazaar/pdf417-dl-canonicalizer/issues"
+  },
+  "homepage": "https://github.com/digitalbazaar/pdf417-dl-canonicalizer",
+  "engines": {
+    "node": ">=18"
+  },
+  "c8": {
+    "reporter": [
+      "lcov",
+      "text-summary",
+      "text"
+    ]
+  }
+}
