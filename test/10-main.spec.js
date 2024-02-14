@@ -6,6 +6,7 @@ import {
   canonizedBytesFromPdfBytes,
   hashFromPdfBytes
 } from '../lib/canonize.js';
+import {encodeBase64Url} from '../lib/helpers.js';
 
 const encoder = new TextEncoder();
 const pdf417StringPre = '@\n';
@@ -23,6 +24,13 @@ const pdf417StringPost = '\rANSI 000000090002DL00410267ZZ03080162DLDAQ0' +
 const pdf417String = pdf417StringPre.concat(recSep, pdf417StringPost);
 const pdfBytes = encoder.encode(pdf417String);
 
+const orderedFields = 
+      'DAG123 EXAMPLE ST\n' + 'DAIGOTHAM\n' + 'DAJNY\n' +
+      'DAK123450000  \n' + 'DAQ00000000\n' + 'DAU072 IN\n' +
+      'DAYBLK\n' + 'DBA01012029\n' + 'DBB01011950\n' +
+      'DBC1\n' + 'DCGUSA\n';
+const testBytes = encoder.encode(orderedFields);
+
 // what to test against here for correctness?
 describe('Canonizer Test', function() {
   it('Function calls should return correct types', async function() {
@@ -33,5 +41,29 @@ describe('Canonizer Test', function() {
     testBytes.should.be.an('uint8array');
     testHash.should.be.an('uint8array');
     testBase64.should.be.a('string');
+  });
+  it('Should canonize correctly', async function() {
+    const canonizedBytes = canonizedBytesFromPdfBytes({pdfBytes});
+    
+    testBytes.should.deep.equal(canonizedBytes);
+  });
+  it('Should canonize + hash correctly', async function() {
+    // test against different hasher here?
+    const testHash = await crypto.subtle.digest('SHA-256', testBytes);
+    const testArray = new Uint8Array(testHash);
+    const canonizedHash = await hashFromPdfBytes({pdfBytes});
+    const hashArray = new Uint8Array(canonizedHash);
+
+    testArray.should.deep.equal(hashArray);
+  });
+  it('Should canonize + hash + base64url encode correctly', async function() {
+    // test against different encoder here?
+    const testBytes = encoder.encode(orderedFields);
+    const testHash = await crypto.subtle.digest('SHA-256', testBytes);
+    const testArray = new Uint8Array(testHash);
+    const testBase64Url = await encodeBase64Url(testArray);
+    const canonizedBase64Url = await base64UrlFromPdfBytes({pdfBytes});
+
+    testBase64Url.should.deep.equal(canonizedBase64Url);
   });
 });
