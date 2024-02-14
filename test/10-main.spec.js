@@ -6,6 +6,7 @@ import {
   canonizedBytesFromPdfBytes,
   hashFromPdfBytes
 } from '../lib/canonize.js';
+import {crypto} from '../lib/platform.js';
 import {encodeBase64Url} from '../lib/helpers.js';
 
 const encoder = new TextEncoder();
