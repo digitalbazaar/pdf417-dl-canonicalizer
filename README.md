@@ -4,7 +4,7 @@
 [![Coverage Status](https://img.shields.io/codecov/c/github/digitalbazaar/pdf417-dl-canonicalizer)](https://codecov.io/gh/digitalbazaar/pdf417-dl-canonicalizer)
 [![NPM Version](https://img.shields.io/npm/v/@digitalbazaar/pdf417-dl-canonicalizer.svg)](https://npm.im/@digitalbazaar/pdf417-dl-canonicalizer)
 
-> Drivers' License PDF417 Canonicalizer.
+> Driver's License PDF417 Canonicalizer.
 
 ## Table of Contents
 
@@ -35,17 +35,17 @@ npm install @digitalbazaar/pdf417-dl-canonicalizer
 
 To canonize a Uint8Array of bytes from a PDF417 drivers' license:
 ```js
-canonizedBytesFromPdfBytes(pdfBytes)
+canonizedBytesFromPdfBytes({pdfBytes})
 ```
 
 To canonize, but return the hash of the canonized form:
 ```js
-hashFromPdfBytes(pdfBytes)
+hashFromPdfBytes({pdfBytes})
 ```
 
 To canonize, but return the base64url encoded hash of the canonized form:
 ```js
-base64UrlFromPdfBytes(pdfBytes)
+base64UrlFromPdfBytes({pdfBytes})
 ```
 
 This package can be used with bundlers, such as [webpack][], in browser
