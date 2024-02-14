@@ -40,7 +40,12 @@ canonizedBytesFromPdfBytes(pdfBytes)
 
 To canonize, but return the hash of the canonized form:
 ```js
-canonizedBytesFromPdfBytes(pdfBytes)
+hashFromPdfBytes(pdfBytes)
+```
+
+To canonize, but return the base64url encoded hash of the canonized form:
+```js
+base64UrlFromPdfBytes(pdfBytes)
 ```
 
 This package can be used with bundlers, such as [webpack][], in browser
