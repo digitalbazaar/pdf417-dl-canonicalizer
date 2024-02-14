@@ -44,7 +44,7 @@ describe('Canonizer Test', function() {
   });
   it('Should canonize correctly', async function() {
     const canonizedBytes = canonizedBytesFromPdfBytes({pdfBytes});
-    
+
     testBytes.should.deep.equal(canonizedBytes);
   });
   it('Should canonize + hash correctly', async function() {
