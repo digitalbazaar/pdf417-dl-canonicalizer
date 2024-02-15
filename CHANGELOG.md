@@ -1,6 +1,6 @@
 # @digitalbazaar/pdf417-dl-canonicalizer ChangeLog
 
-## 1.0.0 - 2024-xx-xx
+## 1.0.0 - 2024-02-dd
 
 ### Changed
 - Initial version.
