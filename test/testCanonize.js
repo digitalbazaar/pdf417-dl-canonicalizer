@@ -2,8 +2,8 @@
  * Copyright (c) 2024 Digital Bazaar, Inc. All rights reserved.
  */
 import {base64UrlFromPdfBytes,
-  canonizedBytesFromPdfBytes,
-  hashFromPdfBytes} from '../lib/canonize.js';
+  canonicalize,
+  hashCanonicalized} from '../lib/canonize.js';
 
 const encoder = new TextEncoder();
 const pdf417StringPre = '@\n';
@@ -22,10 +22,10 @@ const pdf417String = pdf417StringPre.concat(recSep, pdf417StringPost);
 const pdfBytes = encoder.encode(pdf417String);
 console.log(pdfBytes);
 
-const testBytes = canonizedBytesFromPdfBytes({pdfBytes});
+const testBytes = canonicalize({pdfBytes});
 console.log('CANONIZED BYTES: ', testBytes);
 
-const testHash = await hashFromPdfBytes({pdfBytes});
+const testHash = await hashCanonicalized({pdfBytes});
 console.log('HASH OF CANONIZED BYTES: ', testHash);
 
 const testBase64 = await base64UrlFromPdfBytes({pdfBytes});
