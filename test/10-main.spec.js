@@ -3,8 +3,8 @@
  */
 import {
   base64UrlFromPdfBytes,
-  canonizedBytesFromPdfBytes,
-  hashFromPdfBytes
+  canonicalize,
+  hashCanonicalized
 } from '../lib/canonize.js';
 import {crypto} from '../lib/platform.js';
 import {encodeBase64Url} from '../lib/helpers.js';
@@ -35,8 +35,8 @@ const testBytes = encoder.encode(orderedFields);
 // what to test against here for correctness?
 describe('Canonizer Test', function() {
   it('Function calls should return correct types', async function() {
-    const testBytes = canonizedBytesFromPdfBytes({pdfBytes});
-    const testHash = await hashFromPdfBytes({pdfBytes});
+    const testBytes = canonicalize({pdfBytes});
+    const testHash = await hashCanonicalized({pdfBytes});
     const testBase64 = await base64UrlFromPdfBytes({pdfBytes});
 
     testBytes.should.be.an('uint8array');
@@ -44,7 +44,7 @@ describe('Canonizer Test', function() {
     testBase64.should.be.a('string');
   });
   it('Should canonize correctly', async function() {
-    const canonizedBytes = canonizedBytesFromPdfBytes({pdfBytes});
+    const canonizedBytes = canonicalize({pdfBytes});
 
     testBytes.should.deep.equal(canonizedBytes);
   });
@@ -52,7 +52,7 @@ describe('Canonizer Test', function() {
     // test against different hasher here?
     const testHash = await crypto.subtle.digest('SHA-256', testBytes);
     const testArray = new Uint8Array(testHash);
-    const canonizedHash = await hashFromPdfBytes({pdfBytes});
+    const canonizedHash = await hashCanonicalized({pdfBytes});
     const hashArray = new Uint8Array(canonizedHash);
 
     testArray.should.deep.equal(hashArray);
