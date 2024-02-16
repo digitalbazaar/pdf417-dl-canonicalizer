@@ -33,17 +33,17 @@ npm install @digitalbazaar/pdf417-dl-canonicalizer
 
 ## Usage
 
-To canonize a Uint8Array of bytes from a PDF417 drivers' license:
+To canonicalize a Uint8Array of bytes from a PDF417 drivers' license:
 ```js
-canonizedBytesFromPdfBytes({pdfBytes})
+canonicalize({pdfBytes})
 ```
 
-To canonize, but return the hash of the canonized form:
+To canonicalize, but return the hash of the canonized form:
 ```js
-hashFromPdfBytes({pdfBytes})
+hashCanonicalized({pdfBytes})
 ```
 
-To canonize, but return the base64url encoded hash of the canonized form:
+To canonicalize, but return the base64url encoded hash of the canonized form:
 ```js
 base64UrlFromPdfBytes({pdfBytes})
 ```

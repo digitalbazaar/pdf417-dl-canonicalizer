@@ -5,7 +5,7 @@ import {
   base64UrlFromPdfBytes,
   canonicalize,
   hashCanonicalized
-} from '../lib/canonize.js';
+} from '../lib/index.js';
 import {crypto} from '../lib/platform.js';
 import {encodeBase64Url} from '../lib/helpers.js';
 
