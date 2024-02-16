@@ -25,7 +25,7 @@ const pdf417StringPost = '\rANSI 000000090002DL00410267ZZ03080162DLDAQ0' +
 const pdf417String = pdf417StringPre.concat(recSep, pdf417StringPost);
 const pdfBytes = encoder.encode(pdf417String);
 
-const orderedFields = 
+const orderedFields =
       'DAG123 EXAMPLE ST\n' + 'DAIGOTHAM\n' + 'DAJNY\n' +
       'DAK123450000  \n' + 'DAQ00000000\n' + 'DAU072 IN\n' +
       'DAYBLK\n' + 'DBA01012029\n' + 'DBB01011950\n' +
