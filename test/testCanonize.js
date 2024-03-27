@@ -24,11 +24,11 @@ const pdf417String = pdf417StringPre.concat(recSep, pdf417StringPost);
 const pdfBytes = encoder.encode(pdf417String);
 console.log(pdfBytes);
 
-const testBytes = canonicalize({pdfBytes});
+const testBytes = await canonicalize({pdfBytes, fields: 'P_BA'});
 console.log('CANONIZED BYTES: ', testBytes);
 
-const testHash = await hashCanonicalized({pdfBytes});
+const testHash = await hashCanonicalized({pdfBytes, fields: 'P_BA'});
 console.log('HASH OF CANONIZED BYTES: ', testHash);
 
-const testBase64 = await base64UrlFromPdfBytes({pdfBytes});
+const testBase64 = await base64UrlFromPdfBytes({pdfBytes, fields: 'P_BA'});
 console.log('BASE64 OF HASH OF CANONIZED BYTES: ', testBase64);
