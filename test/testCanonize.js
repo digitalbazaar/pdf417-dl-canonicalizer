@@ -24,7 +24,7 @@ const pdf417String = pdf417StringPre.concat(recSep, pdf417StringPost);
 const pdfBytes = encoder.encode(pdf417String);
 console.log(pdfBytes);
 
-const testBytes = await canonicalize({pdfBytes, fields: 'P_BA'});
+const testBytes = await canonicalize({pdfBytes, fields: 'uP_BA'});
 console.log('CANONIZED BYTES: ', testBytes);
 
 const testHash = await hashCanonicalized({pdfBytes, fields: 'P_BA'});
