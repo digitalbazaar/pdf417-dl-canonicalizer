@@ -47,7 +47,7 @@ describe('Canonicalizer Test', function() {
     const testHash = await hash({parsedData});
     const testCanonicalized = canonicalize({parsedData});
 
-    parsedData.should.be.an('array');
+    parsedData.should.be.a('map');
     testHash.should.be.an('uint8array');
     testCanonicalized.should.be.an('uint8array');
   });
