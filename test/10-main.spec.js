@@ -7,7 +7,6 @@ import {
   parse
 } from '../lib/index.js';
 import {crypto} from '../lib/platform.js';
-import {encodeBase64Url} from '../lib/helpers.js';
 
 const encoder = new TextEncoder();
 const pdf417StringPre = '@\n';
@@ -31,21 +30,29 @@ const orderedFields =
       'DAYBLK\n' + 'DBA01012029\n' + 'DBB01011950\n' +
       'DBC1\n' + 'DCGUSA\n';
 const fields = 'uP_BA';
+const orderedFieldsComplete =
+      'DACJOHN\n' + 'DADNONE\n' + 'DAG123 EXAMPLE ST\n' +
+      'DAIGOTHAM\n' + 'DAJNY\n' + 'DAK123450000  \n' + 'DAQ00000000\n' +
+      'DAU072 IN\n' + 'DAYBLK\n' + 'DBA01012029\n' +
+      'DBB01011950\n' + 'DBC1\n' + 'DBD01012024\n' + 'DCANONE\n' +
+      'DCBNONE\n' + 'DCDNONE\n' + 'DCFTESTDOCDISCRIM\n' +
+      'DCGUSA\n' + 'DCSDOE\n' + 'DDEN\n' + 'DDFN\n' + 'DDGN\n';
 const testBytes = encoder.encode(orderedFields);
+const testBytesComplete = encoder.encode(orderedFieldsComplete);
 
 // what to test against here for correctness?
-describe('Canonizer Test', function() {
+describe('Canonicalizer Test', function() {
   it('Function calls should return correct types', async function() {
     const parsedData = await parse({pdfBytes, fields});
     const testHash = await hash({parsedData});
-    const testCanonicalized = canonicalize({parsedData})
+    const testCanonicalized = canonicalize({parsedData});
 
     parsedData.should.be.an('array');
     testHash.should.be.an('uint8array');
     testCanonicalized.should.be.an('uint8array');
   });
   it('Should canonize correctly', async function() {
-    const parsedData = await parse({pdfBytes, fields})
+    const parsedData = await parse({pdfBytes, fields});
     const canonizedBytes = canonicalize({parsedData});
 
     testBytes.should.deep.equal(canonizedBytes);
@@ -54,9 +61,18 @@ describe('Canonizer Test', function() {
     // test against different hasher here?
     const testHash = await crypto.subtle.digest('SHA-256', testBytes);
     const testArray = new Uint8Array(testHash);
-    const parsedData = await parse({pdfBytes, fields})
+    const parsedData = await parse({pdfBytes, fields});
     const canonizedHash = await hash({parsedData});
 
     testArray.should.deep.equal(canonizedHash);
   });
+  it('Should canonicalize correctly without fields param',
+    async function() {
+      const testHash = await crypto.subtle.digest('SHA-256', testBytesComplete);
+      const testArray = new Uint8Array(testHash);
+      const parsedData = await parse({pdfBytes});
+      const canonizedHash = await hash({parsedData});
+
+      testArray.should.deep.equal(canonizedHash);
+    });
 });
