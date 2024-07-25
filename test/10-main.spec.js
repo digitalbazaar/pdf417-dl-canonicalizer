@@ -2,9 +2,9 @@
  * Copyright (c) 2024 Digital Bazaar, Inc. All rights reserved.
  */
 import {
-  base64UrlFromPdfBytes,
   canonicalize,
-  hashCanonicalized
+  hash,
+  parse
 } from '../lib/index.js';
 import {crypto} from '../lib/platform.js';
 import {encodeBase64Url} from '../lib/helpers.js';
