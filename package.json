@@ -24,7 +24,7 @@
     "lint": "eslint --ext .cjs,.js ."
   },
   "dependencies": {
-    "base64url-universal": "2.0.0"
+    "binary-parser": "^2.2.1"
   },
   "devDependencies": {
     "c8": "^9.1.0",
