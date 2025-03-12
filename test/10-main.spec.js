@@ -133,4 +133,73 @@ describe('Canonicalizer Test', function() {
       ]
     });
   });
+  it('Should handle ID parsing', async function() {
+    const raw = pdf417String.replace(/DL/g, 'ID');
+    const encoded = encoder.encode(raw);
+    const result = await decode({pdfBytes: encoded});
+
+    // Expect the optional fields too
+    const expectedDlData = {
+      DAW: '160',
+      DCK: '1234567890',
+      DDA: 'N',
+      DDB: '01012000'
+    };
+
+    const fields = orderedFieldsComplete.split('\n');
+    for(const field of fields) {
+      const key = field.slice(0, 3);
+      const value = field.slice(3);
+      if(key) {
+        expectedDlData[key] = value;
+      }
+    }
+
+    result.should.deep.equal({
+      compliance: '@',
+      aamvaVersionNumber: '09',
+      elementSeparator: '\n',
+      fileType: 'ANSI ',
+      issuerIdentificationNumber: '000000',
+      jurisdictionVersionNumber: '00',
+      numberOfEntries: 2,
+      recordSeparator: '\u001e',
+      segmentTerminator: '\r',
+      entries: [
+        {
+          type: 'ID',
+          offset: 41,
+          length: 267
+        },
+        {
+          type: 'ZZ',
+          offset: 308,
+          length: 162
+        }
+      ],
+      subfiles: [
+        {
+          type: 'ID',
+          data: expectedDlData
+        },
+        {
+          type: 'ZZ',
+          data: {
+            ZZA: sigData
+          }
+        }
+      ]
+    });
+  });
+  it('Should parse ID data', async function() {
+    const raw = pdf417String.replace(/DL/g, 'ID');
+    const pdfBytes = encoder.encode(raw);
+
+    const testHash = await crypto.subtle.digest('SHA-256', testBytes);
+    const testArray = new Uint8Array(testHash);
+    const parsedData = await parse({pdfBytes, fields});
+    const canonizedHash = await hash({parsedData});
+
+    testArray.should.deep.equal(canonizedHash);
+  });
 });
