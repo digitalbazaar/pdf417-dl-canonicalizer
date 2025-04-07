@@ -8,12 +8,6 @@
   "files": [
     "lib/**/*.js"
   ],
-  "browser": {
-    "./lib/platform.js": "./lib/platform-browser.js"
-  },
-  "react-native": {
-    "./lib/platform.js": "./lib/platform-browser.js"
-  },
   "scripts": {
     "test": "npm run test-node",
     "test-node": "cross-env NODE_ENV=test mocha --preserve-symlinks -t 30000 -A -R ${REPORTER:-spec} --require test/test-mocha.js test/*.spec.js",
@@ -62,7 +56,7 @@
   },
   "homepage": "https://github.com/digitalbazaar/pdf417-dl-canonicalizer",
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "c8": {
     "reporter": [
