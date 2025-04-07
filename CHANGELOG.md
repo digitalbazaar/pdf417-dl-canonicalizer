@@ -1,6 +1,6 @@
 # @digitalbazaar/pdf417-dl-canonicalizer ChangeLog
 
-## 1.1.0 - 2025-04-dd
+## 1.1.0 - 2025-04-07
 
 ### Added
 - Add `aamva.select()` API to allow more control for over selection of
