@@ -73,29 +73,26 @@ describe('AAMVA API', function() {
   it('should canonicalize + hash correctly', async function() {
     // test against different hasher here?
     const testHash = await _sha256(testBytes);
-    const testArray = new Uint8Array(testHash);
     const document = await parse({data, selector});
     const canonizedHash = await hash({document});
 
-    testArray.should.deep.equal(canonizedHash);
+    testHash.should.deep.equal(canonizedHash);
   });
   it('should canonicalize correctly with mandatory selector param',
     async function() {
       const testHash = await _sha256(testBytesMandatory);
-      const testArray = new Uint8Array(testHash);
       const document = await parse({data, selector: {fields: 'mandatory'}});
       const canonizedHash = await hash({document});
 
-      testArray.should.deep.equal(canonizedHash);
+      testHash.should.deep.equal(canonizedHash);
     });
   it('should canonicalize everything with no selector param',
     async function() {
       const testHash = await _sha256(testBytesComplete);
-      const testArray = new Uint8Array(testHash);
       const document = await parse({data});
       const canonizedHash = await hash({document});
 
-      testArray.should.deep.equal(canonizedHash);
+      testHash.should.deep.equal(canonizedHash);
     });
   it('should decode raw bytes', async function() {
     const result = await decode({data});
@@ -216,14 +213,13 @@ describe('AAMVA API', function() {
     const data = encoder.encode(raw);
 
     const testHash = await _sha256(testBytes);
-    const testArray = new Uint8Array(testHash);
     const document = await parse({data, selector});
     const canonizedHash = await hash({document});
 
-    testArray.should.deep.equal(canonizedHash);
+    testHash.should.deep.equal(canonizedHash);
   });
 });
 
 async function _sha256(data) {
-  return crypto.subtle.digest('SHA-256', data);
+  return new Uint8Array(await crypto.subtle.digest('SHA-256', data));
 }
