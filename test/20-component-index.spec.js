@@ -1,6 +1,9 @@
+/*!
+ * Copyright (c) 2025 Digital Bazaar, Inc. All rights reserved.
+ */
 import {
   decodeComponentIndex, encodeMandatoryIndex
-} from '../lib/component-index.js';
+} from '../lib/componentIndex.js';
 
 describe('Component index functions', function() {
   describe('encodeMandatoryIndex', function() {
