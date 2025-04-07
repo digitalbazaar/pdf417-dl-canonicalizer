@@ -1,5 +1,10 @@
 # @digitalbazaar/pdf417-dl-canonicalizer ChangeLog
 
+## 1.2.0 - 2025-04-dd
+
+### Added
+- Allow `aamva.select()` to select subfiles other than `DL` or `ID`.
+
 ## 1.1.0 - 2025-04-07
 
 ### Added

@@ -8,7 +8,8 @@ const {
   canonicalize,
   decode,
   hash,
-  parse
+  parse,
+  select
 } = aamva;
 
 const encoder = new TextEncoder();
@@ -217,6 +218,44 @@ describe('AAMVA API', function() {
     const canonizedHash = await hash({document});
 
     testHash.should.deep.equal(canonizedHash);
+  });
+  it('should select ZZ data', async function() {
+    const object = await decode({data});
+    const document = await select({
+      object,
+      selector: {
+        subfile: ['ZZ']
+      }
+    });
+
+    document.should.be.instanceOf(Map);
+    document.get('ZZA').should.deep.equal(sigData);
+  });
+  it('should select ZZ data w/fields restriction', async function() {
+    const object = await decode({data});
+    const document = await select({
+      object,
+      selector: {
+        subfile: ['ZZ'],
+        fields: ['ZZA']
+      }
+    });
+
+    document.should.be.instanceOf(Map);
+    document.get('ZZA').should.deep.equal(sigData);
+  });
+  it('should NOT select ZZ data w/fields restriction', async function() {
+    const object = await decode({data});
+    const document = await select({
+      object,
+      selector: {
+        subfile: ['ZZ'],
+        fields: ['ZZB']
+      }
+    });
+
+    document.should.be.instanceOf(Map);
+    document.size.should.equal(0);
   });
 });
 
