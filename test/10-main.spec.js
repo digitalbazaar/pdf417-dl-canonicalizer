@@ -24,7 +24,7 @@ const pdf417StringPost = '\rANSI 000000090002DL00410267ZZ03080162DLDAQ0' +
 'USA\nDAW160\nDCK1234567890\nDDAN\nDDB01012000\rZZZZA' + sigData + '\r';
 
 const pdf417String = pdf417StringPre.concat(recSep, pdf417StringPost);
-const pdfBytes = encoder.encode(pdf417String);
+const data = encoder.encode(pdf417String);
 
 const orderedFields =
       'DAG123 EXAMPLE ST\n' + 'DAIGOTHAM\n' + 'DAJNY\n' +
@@ -44,8 +44,8 @@ const testBytesComplete = encoder.encode(orderedFieldsComplete);
 
 // what to test against here for correctness?
 describe('Canonicalizer Test', function() {
-  it('Function calls should return correct types', async function() {
-    const parsedData = await parse({pdfBytes, fields});
+  it('function calls should return correct types', async function() {
+    const parsedData = await parse({data, fields});
     const testHash = await hash({parsedData});
     const testCanonicalized = canonicalize({parsedData});
 
@@ -53,32 +53,31 @@ describe('Canonicalizer Test', function() {
     testHash.should.be.an('uint8array');
     testCanonicalized.should.be.an('uint8array');
   });
-  it('Should canonicalize correctly', async function() {
-    const parsedData = await parse({pdfBytes, fields});
+  it('should canonicalize correctly', async function() {
+    const parsedData = await parse({data, fields});
     const canonizedBytes = canonicalize({parsedData});
 
     testBytes.should.deep.equal(canonizedBytes);
   });
-  it('Should canonicalize + hash correctly', async function() {
+  it('should canonicalize + hash correctly', async function() {
     // test against different hasher here?
     const testHash = await crypto.subtle.digest('SHA-256', testBytes);
     const testArray = new Uint8Array(testHash);
-    const parsedData = await parse({pdfBytes, fields});
+    const parsedData = await parse({data, fields});
     const canonizedHash = await hash({parsedData});
 
     testArray.should.deep.equal(canonizedHash);
   });
-  it('Should canonicalize correctly without fields param',
-    async function() {
-      const testHash = await crypto.subtle.digest('SHA-256', testBytesComplete);
-      const testArray = new Uint8Array(testHash);
-      const parsedData = await parse({pdfBytes});
-      const canonizedHash = await hash({parsedData});
+  it('should canonicalize correctly without fields param', async function() {
+    const testHash = await crypto.subtle.digest('SHA-256', testBytesComplete);
+    const testArray = new Uint8Array(testHash);
+    const parsedData = await parse({data});
+    const canonizedHash = await hash({parsedData});
 
-      testArray.should.deep.equal(canonizedHash);
-    });
-  it('Should decode raw bytes', async function() {
-    const result = await decode({pdfBytes});
+    testArray.should.deep.equal(canonizedHash);
+  });
+  it('should decode raw bytes', async function() {
+    const result = await decode({data});
 
     // Expect the optional fields too
     const expectedDlData = {
@@ -133,10 +132,10 @@ describe('Canonicalizer Test', function() {
       ]
     });
   });
-  it('Should handle ID parsing', async function() {
+  it('should handle ID parsing', async function() {
     const raw = pdf417String.replace(/DL/g, 'ID');
-    const encoded = encoder.encode(raw);
-    const result = await decode({pdfBytes: encoded});
+    const data = encoder.encode(raw);
+    const result = await decode({data});
 
     // Expect the optional fields too
     const expectedDlData = {
@@ -191,13 +190,13 @@ describe('Canonicalizer Test', function() {
       ]
     });
   });
-  it('Should parse ID data', async function() {
+  it('should parse ID data', async function() {
     const raw = pdf417String.replace(/DL/g, 'ID');
-    const pdfBytes = encoder.encode(raw);
+    const data = encoder.encode(raw);
 
     const testHash = await crypto.subtle.digest('SHA-256', testBytes);
     const testArray = new Uint8Array(testHash);
-    const parsedData = await parse({pdfBytes, fields});
+    const parsedData = await parse({data, fields});
     const canonizedHash = await hash({parsedData});
 
     testArray.should.deep.equal(canonizedHash);
