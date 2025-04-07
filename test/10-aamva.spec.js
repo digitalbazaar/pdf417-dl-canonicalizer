@@ -1,13 +1,15 @@
 /*!
  * Copyright (c) 2024-2025 Digital Bazaar, Inc. All rights reserved.
  */
-import {
+import {aamva} from '../lib/index.js';
+import {crypto} from '../lib/platform.js';
+
+const {
   canonicalize,
   decode,
   hash,
   parse
-} from '../lib/index.js';
-import {crypto} from '../lib/platform.js';
+} = aamva;
 
 const encoder = new TextEncoder();
 const pdf417StringPre = '@\n';
@@ -52,19 +54,19 @@ const orderedFieldsComplete =
 const testBytesComplete = encoder.encode(orderedFieldsComplete);
 
 // what to test against here for correctness?
-describe('Canonicalizer Test', function() {
+describe('AAMVA API', function() {
   it('function calls should return correct types', async function() {
-    const parsedData = await parse({data, selector});
-    const testHash = await hash({parsedData});
-    const testCanonicalized = canonicalize({parsedData});
+    const document = await parse({data, selector});
+    const testHash = await hash({document});
+    const testCanonicalized = canonicalize({document});
 
-    parsedData.should.be.a('map');
+    document.should.be.a('map');
     testHash.should.be.an('uint8array');
     testCanonicalized.should.be.an('uint8array');
   });
   it('should canonicalize correctly', async function() {
-    const parsedData = await parse({data, selector});
-    const canonizedBytes = canonicalize({parsedData});
+    const document = await parse({data, selector});
+    const canonizedBytes = canonicalize({document});
 
     testBytes.should.deep.equal(canonizedBytes);
   });
@@ -72,8 +74,8 @@ describe('Canonicalizer Test', function() {
     // test against different hasher here?
     const testHash = await _sha256(testBytes);
     const testArray = new Uint8Array(testHash);
-    const parsedData = await parse({data, selector});
-    const canonizedHash = await hash({parsedData});
+    const document = await parse({data, selector});
+    const canonizedHash = await hash({document});
 
     testArray.should.deep.equal(canonizedHash);
   });
@@ -81,8 +83,8 @@ describe('Canonicalizer Test', function() {
     async function() {
       const testHash = await _sha256(testBytesMandatory);
       const testArray = new Uint8Array(testHash);
-      const parsedData = await parse({data, selector: {fields: 'mandatory'}});
-      const canonizedHash = await hash({parsedData});
+      const document = await parse({data, selector: {fields: 'mandatory'}});
+      const canonizedHash = await hash({document});
 
       testArray.should.deep.equal(canonizedHash);
     });
@@ -90,8 +92,8 @@ describe('Canonicalizer Test', function() {
     async function() {
       const testHash = await _sha256(testBytesComplete);
       const testArray = new Uint8Array(testHash);
-      const parsedData = await parse({data});
-      const canonizedHash = await hash({parsedData});
+      const document = await parse({data});
+      const canonizedHash = await hash({document});
 
       testArray.should.deep.equal(canonizedHash);
     });
@@ -215,8 +217,8 @@ describe('Canonicalizer Test', function() {
 
     const testHash = await _sha256(testBytes);
     const testArray = new Uint8Array(testHash);
-    const parsedData = await parse({data, selector});
-    const canonizedHash = await hash({parsedData});
+    const document = await parse({data, selector});
+    const canonizedHash = await hash({document});
 
     testArray.should.deep.equal(canonizedHash);
   });
