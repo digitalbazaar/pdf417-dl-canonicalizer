@@ -1,5 +1,10 @@
 # @digitalbazaar/pdf417-dl-canonicalizer ChangeLog
 
+## 1.2.1 - 2025-04-dd
+
+### Fixed
+- Fix typo with 'utf8' encoding that prevented decoding of string inputs.
+
 ## 1.2.0 - 2025-04-07
 
 ### Added

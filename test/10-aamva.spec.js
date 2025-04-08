@@ -151,6 +151,64 @@ describe('AAMVA API', function() {
       ]
     });
   });
+  it('should decode text w/utf8 encoding', async function() {
+    const result = await decode({
+      data: pdf417String, encoding: 'utf8'
+    });
+
+    // Expect the optional fields too
+    const expectedDlData = {
+      DAW: '160',
+      DCK: '1234567890',
+      DDA: 'N',
+      DDB: '01012000'
+    };
+
+    const fields = orderedFieldsMandatory.split('\n');
+    for(const field of fields) {
+      const key = field.slice(0, 3);
+      const value = field.slice(3);
+      if(key) {
+        expectedDlData[key] = value;
+      }
+    }
+
+    result.should.deep.equal({
+      compliance: '@',
+      aamvaVersionNumber: '09',
+      elementSeparator: '\n',
+      fileType: 'ANSI ',
+      issuerIdentificationNumber: '000000',
+      jurisdictionVersionNumber: '00',
+      numberOfEntries: 2,
+      recordSeparator: '\u001e',
+      segmentTerminator: '\r',
+      entries: [
+        {
+          type: 'DL',
+          offset: 41,
+          length: 267
+        },
+        {
+          type: 'ZZ',
+          offset: 308,
+          length: 162
+        }
+      ],
+      subfiles: [
+        {
+          type: 'DL',
+          data: expectedDlData
+        },
+        {
+          type: 'ZZ',
+          data: {
+            ZZA: sigData
+          }
+        }
+      ]
+    });
+  });
   it('should handle ID parsing', async function() {
     const raw = pdf417String.replace(/DL/g, 'ID');
     const data = encoder.encode(raw);
